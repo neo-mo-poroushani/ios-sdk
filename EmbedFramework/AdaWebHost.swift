@@ -394,9 +394,12 @@ extension AdaWebHost {
         guard let remoteURL = URL(string: "https://\(handle).\(clusterString)\(domainString).support/mobile-sdk-webview/") else { return }
         let webRequest = URLRequest(url: remoteURL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: webViewTimeout)
         
-        if !isDebugging {
+//        if !isDebugging {
+        DispatchQueue.global(qos: .background).async {
             webView.load(webRequest)
-        }        
+        }
+            
+//        }
 
         userContentController.add(self, name: "embedReady")
         userContentController.add(self, name: "eventCallbackHandler")
