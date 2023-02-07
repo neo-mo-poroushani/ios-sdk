@@ -393,14 +393,16 @@ extension AdaWebHost {
         
         guard let remoteURL = URL(string: "https://\(handle).\(clusterString)\(domainString).support/mobile-sdk-webview/") else { return }
         let webRequest = URLRequest(url: remoteURL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: webViewTimeout)
-        webView.load(webRequest)
+        
+        if !isDebugging {
+            webView.load(webRequest)
+        }        
 
         userContentController.add(self, name: "embedReady")
         userContentController.add(self, name: "eventCallbackHandler")
         userContentController.add(self, name: "zdChatterAuthCallbackHandler")
         userContentController.add(self, name: "chatFrameTimeoutCallbackHandler")
-        
-        guard !isDebugging else { return }
+                
         DispatchQueue.main.asyncAfter(deadline: .now() + webViewTimeout) {
             if(!self.hasError && webView.isLoading){
                 webView.stopLoading();
