@@ -166,10 +166,8 @@ public class AdaWebHost: NSObject {
             try reachability.startNotifier()
         } catch {
             print("Unable to start reachability notifier.")
-        }
-        if !debugging {
-            setupWebView()
-        }
+        }        
+        setupWebView(isDebugging: debugging)
     }
     
     // MARK: - Public Methods
@@ -374,7 +372,7 @@ public class AdaWebHost: NSObject {
 }
 
 extension AdaWebHost {
-    private func setupWebView() {
+    private func setupWebView(isDebugging: Bool) {
         let wkPreferences = WKPreferences()
         wkPreferences.javaScriptCanOpenWindowsAutomatically = true
         wkPreferences.javaScriptEnabled = true
@@ -385,6 +383,8 @@ extension AdaWebHost {
         configuration.userContentController = userContentController
         configuration.mediaTypesRequiringUserActionForPlayback = []
         configuration.preferences = wkPreferences
+        guard !isDebugging else { return }
+        
         webView = WKWebView(frame: .zero, configuration: configuration)
         guard let webView = webView else { return }
         webView.scrollView.isScrollEnabled = false
@@ -636,7 +636,7 @@ extension AdaWebHost {
         
         // This should reset the webview if client is offline on launch
         if !self.webHostLoaded {
-            self.setupWebView()
+            self.setupWebView(isDebugging: false)
         }
     }
 }
