@@ -105,7 +105,8 @@ public class AdaWebHost: NSObject {
         eventCallbacks: [String: (_ event: [String: Any]) -> Void]? = nil,
         webViewTimeout: Double = 30.0,
         deviceToken: String = "",
-        navigationBarOpaqueBackground: Bool = false
+        navigationBarOpaqueBackground: Bool = false,
+        debugging: Bool = false
     ) {
         self.handle = handle
         self.cluster = cluster
@@ -166,8 +167,9 @@ public class AdaWebHost: NSObject {
         } catch {
             print("Unable to start reachability notifier.")
         }
-        
-        setupWebView()
+        if !debugging {
+            setupWebView()
+        }
     }
     
     // MARK: - Public Methods
