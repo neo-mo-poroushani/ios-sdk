@@ -383,11 +383,9 @@ extension AdaWebHost {
         configuration.userContentController = userContentController
         configuration.mediaTypesRequiringUserActionForPlayback = []
         configuration.preferences = wkPreferences
-        guard !isDebugging else { return }
         
         webView = WKWebView(frame: .zero, configuration: configuration)
         
-        guard !isDebugging else { return }
         guard let webView = webView else { return }
         webView.scrollView.isScrollEnabled = false
         webView.navigationDelegate = self
@@ -402,6 +400,7 @@ extension AdaWebHost {
         userContentController.add(self, name: "zdChatterAuthCallbackHandler")
         userContentController.add(self, name: "chatFrameTimeoutCallbackHandler")
         
+        guard !isDebugging else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + webViewTimeout) {
             if(!self.hasError && webView.isLoading){
                 webView.stopLoading();
