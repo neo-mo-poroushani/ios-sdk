@@ -395,7 +395,7 @@ extension AdaWebHost {
         let webRequest = URLRequest(url: remoteURL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: webViewTimeout)
         
 //        if !isDebugging {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async {
             webView.load(webRequest)
         }
             
