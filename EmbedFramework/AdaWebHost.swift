@@ -166,7 +166,7 @@ public class AdaWebHost: NSObject {
             try reachability.startNotifier()
         } catch {
             print("Unable to start reachability notifier.")
-        }        
+        }
         setupWebView(isDebugging: debugging)
     }
     
@@ -386,6 +386,8 @@ extension AdaWebHost {
         guard !isDebugging else { return }
         
         webView = WKWebView(frame: .zero, configuration: configuration)
+        
+        guard !isDebugging else { return }
         guard let webView = webView else { return }
         webView.scrollView.isScrollEnabled = false
         webView.navigationDelegate = self
