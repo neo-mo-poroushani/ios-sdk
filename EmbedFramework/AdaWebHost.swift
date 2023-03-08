@@ -525,6 +525,20 @@ extension AdaWebHost: WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate {
     
         download.delegate = self
     }
+    
+    @available(iOS 15.0, *)
+    public func webView(_ webView: WKWebView, decideMediaCapturePermissionsFor origin: WKSecurityOrigin, initiatedBy frame: WKFrameInfo, type: WKMediaCaptureType) async -> WKPermissionDecision {
+        switch type {
+        case .camera:
+            return .grant
+        case .microphone:
+            return .deny
+        case .cameraAndMicrophone:
+            return .deny
+        @unknown default:
+            return .deny
+        }
+    }
 
 }
 
