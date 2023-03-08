@@ -527,6 +527,21 @@ extension AdaWebHost: WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate {
     }
     
     @available(iOS 15.0, *)
+    public func webView(_ webView: WKWebView, requestMediaCapturePermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, type: WKMediaCaptureType, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+        print("ADA: deciding permission for: \(type)")
+        switch type {
+        case .camera:
+            decisionHandler(.grant)
+        case .microphone:
+            decisionHandler(.deny)
+        case .cameraAndMicrophone:
+            decisionHandler(.deny)
+        @unknown default:
+            decisionHandler(.deny)
+        }
+    }
+    /*
+    @available(iOS 15.0, *)
     public func webView(_ webView: WKWebView, decideMediaCapturePermissionsFor origin: WKSecurityOrigin, initiatedBy frame: WKFrameInfo, type: WKMediaCaptureType) async -> WKPermissionDecision {
         print("ADA: deciding permission for: \(type)")
         switch type {
@@ -540,6 +555,7 @@ extension AdaWebHost: WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate {
             return .deny
         }
     }
+     */
 }
 
 extension AdaWebHost: WKScriptMessageHandler {
