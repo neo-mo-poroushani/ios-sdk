@@ -562,6 +562,7 @@ extension AdaWebHost: WKScriptMessageHandler {
     /// When the webview loads up, it'll pass back a message to here.
     /// Fire our initialize methods when that happens.
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        print("ADA: receievd message:\(message.name)")
         let messageName = message.name
         if messageName == "embedReady" {
             self.webHostLoaded = true
